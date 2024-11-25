@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "readbin.h": "c",
+        "stdio.h": "c"
+    }
+}
