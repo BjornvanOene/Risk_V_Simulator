@@ -8,3 +8,6 @@
 #include <rtype.h>
 #include <utype.h>
 
+int ecall(uint32_t instr){
+
+}

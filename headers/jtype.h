@@ -13,6 +13,7 @@ typedef struct{
 } jtype;
 
 int32_t signextend12(int32_t val);
+jtype* decodej(uint32_t , CPURegs* );
 void jfnc3decode(jtype* , CPURegs* , uint32_t* );
 void jalr(jtype* , CPURegs* , uint32_t* );
 void jal(jtype* , CPURegs* , uint32_t* );

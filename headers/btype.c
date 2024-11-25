@@ -60,7 +60,11 @@ void fnc3bDecode(btype* binstr, CPURegs* reg, uint32_t *pc) {
     case 7:
         bgeu(binstr, reg, pc);
         break;
+    default:
+        break;
     }
+    free(binstr);
+    return;
 }
 
 void bge(btype* binstr, CPURegs* reg, uint32_t *pc) {

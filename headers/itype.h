@@ -15,5 +15,13 @@ typedef struct {
 } itype;
 
 itype* decodei(uint32_t , CPURegs* );
-
+void ifnc3decode(itype*, CPURegs* );
+void addi(itype* , CPURegs* );
+void andi(itype* , CPURegs* );
+void ori(itype* , CPURegs* );
+void sltiu(itype* , CPURegs* );
+void slti(itype* , CPURegs* );
+void srai(itype* , CPURegs* );
+void srli(itype* , CPURegs* );
+void slli(itype* , CPURegs* );
 #endif

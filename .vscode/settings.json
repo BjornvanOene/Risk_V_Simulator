@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "readbin.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "rtype.h": "c"
     }
 }

@@ -46,7 +46,7 @@ jtype* decodej(uint32_t instr, CPURegs* reg){
     return jinstr;
 }
 
-void jdecode(jtype* jinstr, CPURegs* reg, uint32_t* pc) {
+void jfnc3decode(jtype* jinstr, CPURegs* reg, uint32_t* pc) {
     switch (jinstr -> op) {
         case 111:
             jal(jinstr, reg, pc);

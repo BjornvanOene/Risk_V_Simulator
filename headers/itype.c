@@ -29,6 +29,78 @@ itype* decodei(uint32_t instr, CPURegs* reg){
 
 void ifnc3decode(itype* iinstr, CPURegs* reg){
     switch(iinstr -> fnc3) {
-        case
+        case 0:
+            addi(iinstr,reg);
+            break;
+        case 1: 
+            slli(iinstr,reg);
+            break;
+        case 2:
+            slti(iinstr,reg);
+            break;
+        case 3:
+            sltiu(iinstr,reg);
+            break;
+        case 4:
+            xori(iinstr,reg);
+            break;
+        case 5:
+            if(iinstr->shtyp == 0) {
+                srli(iinstr,reg);
+            } else {
+                srai(iinstr,reg);
+            }
+            break;
+        case 6: 
+            ori(iinstr,reg);
+            break;
+        case 7:
+            andi(iinstr,reg);
+            break;
     }
+}
+
+void addi(itype* iinstr, CPURegs* reg) {
+    reg -> x[(iinstr->rd)] = reg -> x[(iinstr->rs1)] + iinstr -> imm;
+    return;
+}
+void andi(itype* iinstr, CPURegs* reg) {
+    reg -> x[(iinstr->rd)] = reg -> x[(iinstr->rs1)] & iinstr -> imm;
+    return;
+}
+void ori(itype* iinstr, CPURegs* reg) {
+    reg -> x[(iinstr->rd)] = reg -> x[(iinstr->rs1)] | iinstr -> imm;
+    return;
+}
+void xori(itype* iinstr, CPURegs* reg) {
+    reg -> x[(iinstr->rd)] = reg -> x[(iinstr->rs1)] ^ iinstr -> imm;
+    return;
+}
+void sltiu(itype* iinstr, CPURegs* reg) {
+    if ((uint32_t)(reg->x[(iinstr->rs1)]) < (uint32_t)(iinstr->imm)){
+        reg -> x[iinstr->rd] = 1;
+    } else{
+         reg -> x[iinstr->rd] = 0;
+    }
+    return;
+}
+void slti(itype* iinstr, CPURegs* reg) {
+    if ((reg->x[(iinstr->rs1)]) < (iinstr->imm)){
+        reg->x[(iinstr->rd)] = 1;
+    } else{
+        reg->x[(iinstr->rd)] = 0;
+    }
+    return;
+}
+void srli(itype* iinstr, CPURegs* reg) {
+    reg -> x[(iinstr->rd)] = (((uint32_t)reg -> x[(iinstr->rs1)]) >> (iinstr->shamt));
+    return;
+}
+void srai(itype* iinstr, CPURegs* reg) {
+    reg -> x[(iinstr->rd)] = ((reg->x[(iinstr->rs1)]) >> (iinstr->shamt));
+    return;
+}
+void slli(itype* iinstr, CPURegs* reg) {
+    reg -> x[(iinstr->rd)] = (((uint32_t)reg->x[(iinstr->rs1)] << (iinstr->shamt)));
+    return;
 }
