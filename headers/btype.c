@@ -30,10 +30,9 @@ btype* decodeb(uint32_t instr, CPURegs* reg){
     }
 
     binstr -> op = instr & 0x7F;
-    binstr -> fnc3 = (instr >> 12) & 0x7;
     binstr -> rs1 = (instr >> 15) & 0x1F;
     binstr -> rs2 = (instr >> 20) & 0x1F;
-
+    binstr -> fnc3 = (instr >> 12) & 0x7;
     binstr -> offset = decodeOffset(instr) - 4;
 
     return binstr;

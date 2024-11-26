@@ -11,10 +11,10 @@ itype* decodei(uint32_t instr, CPURegs* reg){
         return NULL;
     }
     iinstr -> op = instr & 0x7F;
+    iinstr -> rs1 = (instr >> 15) & 0x1F;
     iinstr -> rd = (instr >> 7) & 0x1F;
     iinstr -> fnc3 = (instr >> 12) & 0x7;
-    iinstr -> rs1 = (instr >> 15) & 0x1F;
-
+    
     if (iinstr -> fnc3 == 5 || iinstr -> fnc3 == 1) {
         iinstr -> shamt = (instr >> 20) & 0x1F;
         iinstr -> shtyp = (instr >> 25) & 0x3F;
