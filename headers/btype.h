@@ -13,6 +13,7 @@ typedef struct{
 } btype;
 
 btype* bdecode(uint32_t, CPURegs*);
+void fnc3bDecode(btype* binstr, CPURegs* reg, uint32_t *pc);
 void beq(btype*, CPURegs*, uint32_t*);
 void bne(btype* , CPURegs* , uint32_t*);
 void blt(btype* , CPURegs* , uint32_t*);
