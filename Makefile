@@ -11,7 +11,7 @@ BIN_DIR = bin
 SRC = $(wildcard $(SRC_DIR)/*.c) main.c
 
 # Output binary
-TARGET = main
+TARGET = $(BIN_DIR)/main
 
 # Tasks
 .PHONY: all clean run tests
@@ -23,7 +23,7 @@ all: $(TARGET)
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
-# Compile the target directly
+# Compile and link the target directly
 $(TARGET): $(SRC) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
@@ -33,9 +33,10 @@ run: $(TARGET)
 
 # Clean the build
 clean:
-	rm -rf $(BIN_DIR)
+	rm -rf $(BIN_DIR) $(TARGET)
 
 # Run tests
-tests:
+tests: $(TARGET)
 	@echo "Running tests..."
-	# Add test-running commands here as needed.
+	# Add commands to run your tests here
+	@echo "Tests completed."

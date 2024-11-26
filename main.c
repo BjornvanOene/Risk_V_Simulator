@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "headers/readbin.h"
-#include "headers/regs.h"
-#include "headers/decoder.h"
+#include "readbin.h"
+#include "regs.h"
+#include "decoder.h"
 
 /*int main(int argc, char const *argv[])
 {
@@ -20,6 +20,7 @@ uint8_t* initsp(){
 }
 
 void printStacktoTerm(uint8_t* sp, int32_t val){
+    val = val*4;
     for (int8_t i = 100; i < 136; i += 4) {
         printf("%0x: %u, %u, %u, %u\n", i, sp[i], sp[i+1], sp[i+2], sp[i+3]);
     }
@@ -46,6 +47,24 @@ void loadtomem(uint8_t* sp, uint32_t* instr) {
 }
 
 int main(int argc, char const *argv[]) {
-    readToWord( argv[1]);
+    
+    CPURegs* regs = init_regs();
+    uint8_t* sp = initsp(); 
+    
+    uint32_t* IntructionArray = (uint32_t*)readToWord(argv[1]);
+    loadtomem(sp, IntructionArray);
+
+    uint32_t pcval = 0;
+    uint32_t *pc = &pcval;
+    uint32_t len = lengthofinstr(IntructionArray) << 2;
+
+    while (1) {
+        compCode(IntructionArray, regs, pc, sp);
+        *pc = *pc+4;
+        regs -> x[0] = 0;
+        printStacktoTerm(sp, 64);
+    }
+    free(sp);
+    free(IntructionArray);
     return 0;
 }
