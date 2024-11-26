@@ -24,4 +24,5 @@ void slti(itype* , CPURegs* );
 void srai(itype* , CPURegs* );
 void srli(itype* , CPURegs* );
 void slli(itype* , CPURegs* );
+void xori(itype* , CPURegs* );
 #endif

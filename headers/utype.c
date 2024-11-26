@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <regs.h>
+#include "regs.h"
 
 utype* udecode(unsigned int instr, CPURegs* reg) {
     utype* uinstr = malloc(sizeof(utype));

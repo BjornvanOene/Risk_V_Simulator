@@ -1,8 +1,8 @@
-#include <btype.h>
+#include "btype.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <regs.h>
+#include "regs.h"
 
 int32_t decodeOffset(uint32_t instr) {
     int first4 = (instr >> 8) & 0xF;

@@ -1,23 +1,41 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -Wextra -Iheaders -g
+LDFLAGS =
 
-# Target executable
+# Directories
+SRC_DIR = headers
+BIN_DIR = bin
+
+# Source files
+SRC = $(wildcard $(SRC_DIR)/*.c) main.c
+
+# Output binary
 TARGET = main
 
-# Source file
-SRC = main.c
+# Tasks
+.PHONY: all clean run tests
 
-# Default rule to build the target
+# Default target
 all: $(TARGET)
 
-# Compile source file directly into the executable
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) -o $@ $<
+# Create the binary directory if it doesn't exist
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
 
-# Clean up build artifacts
+# Compile the target directly
+$(TARGET): $(SRC) | $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+# Run the program
+run: $(TARGET)
+	$(TARGET)
+
+# Clean the build
 clean:
-	rm -f $(TARGET)
+	rm -rf $(BIN_DIR)
 
-# Phony targets
-.PHONY: all clean
+# Run tests
+tests:
+	@echo "Running tests..."
+	# Add test-running commands here as needed.

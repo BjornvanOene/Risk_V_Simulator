@@ -2,7 +2,7 @@
 #define STYPEH
 
 #include <stdint.h>
-#include <regs.h>
+#include "regs.h"
 
 typedef struct {
     uint32_t op;

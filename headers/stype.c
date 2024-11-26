@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <regs.h>
-#include <jtype.h>
+#include "regs.h"
+#include "jtype.h"
 
 int32_t stack(int32_t addr, int32_t offset, uint8_t* sp){
     int32_t stackpointer = 0x00100000 - (addr + offset);
