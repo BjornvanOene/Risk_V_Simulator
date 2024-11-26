@@ -8,6 +8,15 @@
 #include "rtype.h"
 #include "utype.h"
 
-int ecall(uint32_t instr){
-
+int ecall(uint32_t instr, CPURegs* reg){
+    
+    switch(ecallDecode) {
+        case 10:
+            return 1;
+            break;
+        default:
+            break;
+    }
 }
+
+int  
