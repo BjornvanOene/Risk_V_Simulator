@@ -17,14 +17,14 @@ TARGET = $(BIN_DIR)/main
 .PHONY: all clean run tests
 
 # Default target
-all: $(TARGET)
+all: $(BIN_DIR) $(TARGET)
 
 # Create the binary directory if it doesn't exist
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
-# Compile and link the target directly
-$(TARGET): $(SRC) | $(BIN_DIR)
+# Compile and link the target
+$(TARGET): $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # Run the program
@@ -33,10 +33,10 @@ run: $(TARGET)
 
 # Clean the build
 clean:
-	rm -rf $(BIN_DIR) $(TARGET)
+	rm -rf $(BIN_DIR)
 
 # Run tests
 tests: $(TARGET)
 	@echo "Running tests..."
-	# Add commands to run your tests here
+	# Add your test commands here, e.g., executing binary with test inputs
 	@echo "Tests completed."

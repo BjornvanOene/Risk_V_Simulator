@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "readbin.h"
-#include "regs.h"
-#include "decoder.h"
+#include <regs.h>
+#include <decoder.h>
 
 /*int main(int argc, char const *argv[])
 {
