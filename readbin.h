@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-int readToWord( char a[]);
+uint32_t* readToWord( char a[]);
 
 #endif

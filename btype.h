@@ -12,7 +12,7 @@ typedef struct{
     int32_t offset;
 } btype;
 
-btype* bdecode(uint32_t, CPURegs*);
+btype* decodeb(uint32_t, CPURegs*);
 void fnc3bDecode(btype* , CPURegs* , uint32_t*);
 void beq(btype*, CPURegs*, uint32_t*);
 void bne(btype* , CPURegs* , uint32_t*);

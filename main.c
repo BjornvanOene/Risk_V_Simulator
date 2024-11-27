@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "regs.c"
-#include "decoder.c"
-#include "readbin.c"
+#include "regs.h"
+#include "decoder.h"
+#include "readbin.h"
+#include "btype.h"
+#include "itype.h"
+#include "jtype.h"
+#include "rtype.h"
+#include "stype.h"
+#include "utype.h"
 
 /*int main(int argc, char const *argv[])
 {
@@ -46,7 +52,7 @@ void loadtomem(uint8_t* sp, uint32_t* instr) {
     return;
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]) {
     
     CPURegs* regs = init_regs();
     uint8_t* sp = initsp(); 
@@ -64,6 +70,7 @@ int main(int argc, char const *argv[]) {
         regs -> x[0] = 0;
         printStacktoTerm(sp, 64);
     }
+
     free(sp);
     free(IntructionArray);
     return 0;

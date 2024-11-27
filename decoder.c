@@ -31,7 +31,7 @@ int compCode(uint32_t *instr, CPURegs *regs, uint32_t *pc, uint8_t* sp) {
             break;
         }
         case 99: { // Send to btype
-            btype* binstr = bdecode(instr[*pc/4],regs);
+            btype* binstr = decodeb(instr[*pc/4],regs);
             fnc3bDecode(binstr,regs,pc);
             break;
         }

@@ -3,13 +3,13 @@
 #include <stdint.h>
 #include "readbin.h"
 
-int readToWord(char a[]) {
+uint32_t* readToWord(char a[]) {
     //const char *filename = "example.bin";
     FILE *file = fopen(a, "rb");  // Open file in binary mode
 
     if (file == NULL) {
         perror("Error opening file");
-        return 1;
+        return NULL;
     }
 
     // Determine file size
@@ -21,7 +21,7 @@ int readToWord(char a[]) {
     if (fileSize % 4 != 0) {
         fprintf(stderr, "Error: File size is not a multiple of 4 bytes (32 bits)\n");
         fclose(file);
-        return 1;
+        return NULL;
     }
 
     // Calculate number of 32-bit words
@@ -32,7 +32,7 @@ int readToWord(char a[]) {
     if (wordArray == NULL) {
         perror("Memory allocation failed");
         fclose(file);
-        return 1;
+        return NULL;
     }
 
     // Read 32-bit words into the array
@@ -41,7 +41,7 @@ int readToWord(char a[]) {
         perror("Error reading file");
         free(wordArray);
         fclose(file);
-        return 1;
+        return NULL;
     }
     
     // Print the 32-bit words
@@ -51,8 +51,8 @@ int readToWord(char a[]) {
     }
 
     // Clean up
-    free(wordArray);
+    
     fclose(file);
 
-    return 0;
+    return wordArray;
 }

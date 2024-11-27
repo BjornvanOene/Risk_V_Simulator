@@ -1,29 +1,41 @@
-# Compiler
-CC = gcc
+# Compiler and flags
+CC = clang
+CFLAGS = -Wall -Wextra -O2 -target arm64-apple-macos11
 
-# Compiler flags
-CFLAGS = -Wall -Werror -std=c11
-
-# Directory paths
+# Directories
 SRC_DIR = .
 BIN_DIR = bin
+TEST_DIR = tests
 
-# Source files (list all .c files)
-SRC_FILES = btype.c decoder.c itype.c jtype.c main.c readbin.c regs.c rtype.c stype.c utype.c
+# Source and header files
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(BIN_DIR)/%.o, $(SRC_FILES))
+HEADERS = $(wildcard $(SRC_DIR)/*.h)
 
-# Output executable
-OUTPUT = $(BIN_DIR)/main
+# Output binary
+TARGET = ./main
 
 # Default target
-all: $(OUTPUT)
+all: $(TARGET)
 
-# Compile all source files into the final executable
-$(OUTPUT): $(SRC_FILES)
-	$(CC) $(CFLAGS) $(SRC_FILES) -o $(OUTPUT)
+# Create bin directory if it doesn't exist
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
 
-# Clean the bin directory (remove the executable)
+# Build target
+$(TARGET): $(BIN_DIR) $(OBJ_FILES)
+	$(CC) $(CFLAGS) -o $@ $(OBJ_FILES)
+
+# Compile source files into object files
+$(BIN_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Clean build artifacts
 clean:
-	rm -f $(OUTPUT)
+	rm -rf $(BIN_DIR)
 
-# Phony targets (to avoid conflict with files named 'all' or 'clean')
-.PHONY: all clean
+# Run tests (placeholder command; update based on your test framework)
+test: all
+	$(TEST_DIR)/run_tests.sh
+
+.PHONY: all clean test
