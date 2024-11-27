@@ -1,8 +1,10 @@
 # Compiler and flags
 CC = clang
 CFLAGS = -Wall -Wextra -O2
+DEBUG_FLAGS = -Wall -Wextra -g
 TARGET_MACOS = -target arm64-apple-macos11
 TARGET_WINDOWS = -target x86_64-windows-gnu
+TARGET_LINUX = -target x86_64-linux-gnu
 
 # Directories
 SRC_DIR = .
@@ -17,6 +19,8 @@ HEADERS = $(wildcard $(SRC_DIR)/*.h)
 # Output binaries
 TARGET = ./main
 TARGET_WINDOWS_BINARY = main.exe
+TARGET_LINUX_BINARY = main_linux
+DEBUG_BINARY = ./main_debug
 
 # Default target
 all: $(TARGET)
@@ -37,12 +41,20 @@ $(BIN_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 windows: $(BIN_DIR) $(OBJ_FILES)
 	$(CC) $(CFLAGS) $(TARGET_WINDOWS) -o $(TARGET_WINDOWS_BINARY) $(OBJ_FILES)
 
+# Build Linux target
+linux: $(BIN_DIR) $(OBJ_FILES)
+	$(CC) $(CFLAGS) $(TARGET_LINUX) -o $(TARGET_LINUX_BINARY) $(OBJ_FILES)
+
+# Debug target for macOS
+debug: $(BIN_DIR) $(OBJ_FILES)
+	$(CC) $(DEBUG_FLAGS) $(TARGET_MACOS) -o $(DEBUG_BINARY) $(OBJ_FILES)
+
 # Clean build artifacts
 clean:
-	rm -rf $(BIN_DIR) $(TARGET) $(TARGET_WINDOWS_BINARY)
+	rm -rf $(BIN_DIR) $(TARGET) $(TARGET_WINDOWS_BINARY) $(TARGET_LINUX_BINARY) $(DEBUG_BINARY)
 
 # Run tests (placeholder command; update based on your test framework)
 test: all
 	$(TEST_DIR)/run_tests.sh
 
-.PHONY: all clean test windows
+.PHONY: all clean test windows linux debug

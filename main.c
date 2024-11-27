@@ -61,8 +61,14 @@ int main(int argc, char *argv[]) {
     
     CPURegs* regs = init_regs();
     uint8_t* sp = initsp(); 
-    
-    uint32_t* IntructionArray = readToWord(argv[1]);
+    uint32_t* IntructionArray;
+    if(argv[1]){
+        IntructionArray = readToWord(argv[1]);
+    } else{
+        IntructionArray = readToWord("tests/task3/loop.bin");
+
+    }
+    //uint32_t* IntructionArray = readToWord(argv[1]);
     loadtomem(sp, IntructionArray);
 
     uint32_t pcval = 0;
