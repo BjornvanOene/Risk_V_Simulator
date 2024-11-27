@@ -45,10 +45,10 @@ uint32_t* readToWord(char a[]) {
     }
     
     // Print the 32-bit words
-    printf("File read successfully. Total words: %zu\n", numWords);
+    /*printf("File read successfully. Total words: %zu\n", numWords);
     for (size_t i = 0; i < numWords; i++) {
         printf("Word %zu: 0x%08X\n", i, wordArray[i]);
-    }
+    }*/
 
     // Clean up
     

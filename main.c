@@ -27,10 +27,15 @@ uint8_t* initsp(){
 
 void printStacktoTerm(uint8_t* sp, int32_t val){
     val = val*4;
-    for (uint8_t i = 100; i < 136; i += 4) {
+    for (uint8_t i = 100; i < 152; i += 4) {
         printf("%0x: %u, %u, %u, %u\n", i, sp[i], sp[i+1], sp[i+2], sp[i+3]);
     }
     printf("\n");
+}
+void printRegtoTerm(CPURegs* reg){
+    for (uint32_t i = 0; i<32; i+=1){
+        printf("x%D:%0x\n", i, reg->x[i]);
+    }
 }
 int lengthofinstr(uint32_t* len){
     int i = 0;
@@ -65,12 +70,13 @@ int main(int argc, char *argv[]) {
     //uint32_t len = lengthofinstr(IntructionArray) << 2;
 
     while (1) {
-        compCode(IntructionArray, regs, pc, sp);
+        if (compCode(IntructionArray, regs, pc, sp)){
+            break;
+        }
         *pc = *pc+4;
         regs -> x[0] = 0;
-        printStacktoTerm(sp, 64);
     }
-
+    printRegtoTerm(regs);
     free(sp);
     free(IntructionArray);
     return 0;

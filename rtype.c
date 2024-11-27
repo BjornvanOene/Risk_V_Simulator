@@ -64,7 +64,6 @@ void rfnc7decode(rtype* rinstr, CPURegs* reg) {
         default:
             break;
     }
-    free(rinstr);
     return;
 }
 

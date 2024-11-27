@@ -58,6 +58,7 @@ void ifnc3decode(itype* iinstr, CPURegs* reg){
             andi(iinstr,reg);
             break;
     }
+    free(iinstr);
 }
 
 void addi(itype* iinstr, CPURegs* reg) {
