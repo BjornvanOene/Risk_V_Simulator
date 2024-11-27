@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "readbin.h"
-#include <regs.h>
-#include <decoder.h>
+#include "regs.c"
+#include "decoder.c"
+#include "readbin.c"
 
 /*int main(int argc, char const *argv[])
 {
@@ -13,7 +13,7 @@
 
 uint8_t* initsp(){
     uint8_t* sp = (uint8_t*) malloc(sizeof(uint8_t)*0x00100000);
-    if(sp=NULL) {
+    if(sp==NULL) {
         printf("Failure: Stack pointer");
     }
     return sp;
@@ -21,7 +21,7 @@ uint8_t* initsp(){
 
 void printStacktoTerm(uint8_t* sp, int32_t val){
     val = val*4;
-    for (int8_t i = 100; i < 136; i += 4) {
+    for (uint8_t i = 100; i < 136; i += 4) {
         printf("%0x: %u, %u, %u, %u\n", i, sp[i], sp[i+1], sp[i+2], sp[i+3]);
     }
     printf("\n");
@@ -51,12 +51,12 @@ int main(int argc, char const *argv[]) {
     CPURegs* regs = init_regs();
     uint8_t* sp = initsp(); 
     
-    uint32_t* IntructionArray = (uint32_t*)readToWord(argv[1]);
+    uint32_t* IntructionArray = readToWord(argv[1]);
     loadtomem(sp, IntructionArray);
 
     uint32_t pcval = 0;
     uint32_t *pc = &pcval;
-    uint32_t len = lengthofinstr(IntructionArray) << 2;
+    //uint32_t len = lengthofinstr(IntructionArray) << 2;
 
     while (1) {
         compCode(IntructionArray, regs, pc, sp);

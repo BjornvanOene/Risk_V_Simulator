@@ -1,42 +1,29 @@
-# Compiler and flags
+# Compiler
 CC = gcc
-CFLAGS = -Wall -Wextra -Iheaders -g
-LDFLAGS =
 
-# Directories
-SRC_DIR = headers
+# Compiler flags
+CFLAGS = -Wall -Werror -std=c11
+
+# Directory paths
+SRC_DIR = .
 BIN_DIR = bin
 
-# Source files
-SRC = $(wildcard $(SRC_DIR)/*.c) main.c
+# Source files (list all .c files)
+SRC_FILES = btype.c decoder.c itype.c jtype.c main.c readbin.c regs.c rtype.c stype.c utype.c
 
-# Output binary
-TARGET = $(BIN_DIR)/main
-
-# Tasks
-.PHONY: all clean run tests
+# Output executable
+OUTPUT = $(BIN_DIR)/main
 
 # Default target
-all: $(BIN_DIR) $(TARGET)
+all: $(OUTPUT)
 
-# Create the binary directory if it doesn't exist
-$(BIN_DIR):
-	mkdir -p $(BIN_DIR)
+# Compile all source files into the final executable
+$(OUTPUT): $(SRC_FILES)
+	$(CC) $(CFLAGS) $(SRC_FILES) -o $(OUTPUT)
 
-# Compile and link the target
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) -o $@ $^
-
-# Run the program
-run: $(TARGET)
-	$(TARGET)
-
-# Clean the build
+# Clean the bin directory (remove the executable)
 clean:
-	rm -rf $(BIN_DIR)
+	rm -f $(OUTPUT)
 
-# Run tests
-tests: $(TARGET)
-	@echo "Running tests..."
-	# Add your test commands here, e.g., executing binary with test inputs
-	@echo "Tests completed."
+# Phony targets (to avoid conflict with files named 'all' or 'clean')
+.PHONY: all clean

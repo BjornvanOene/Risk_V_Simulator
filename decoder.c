@@ -21,7 +21,7 @@ int ecall(uint32_t instr, CPURegs* reg){
 }
 
 
-int compCode(uint32_t *instr, CPURegs *regs, int *pc, uint8_t* sp) {
+int compCode(uint32_t *instr, CPURegs *regs, uint32_t *pc, uint8_t* sp) {
     uint32_t op = (instr[*pc/4] & 0b00000000000000000000000001111111);
     
     switch(op) {
@@ -49,7 +49,7 @@ int compCode(uint32_t *instr, CPURegs *regs, int *pc, uint8_t* sp) {
         case 35:
         case 3:{
             stype* sinstr = sdecode(instr[*pc/4],regs);
-            sfnc3decode(sinstr,regs,pc);
+            sfnc3decode(sinstr,regs,sp);
             break;
         }
         case 55:{

@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "readbin.h"
 
-int readToWord( char a[]) {
+int readToWord(char a[]) {
     //const char *filename = "example.bin";
     FILE *file = fopen(a, "rb");  // Open file in binary mode
 
