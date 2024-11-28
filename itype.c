@@ -22,7 +22,7 @@ itype* decodei(uint32_t instr, CPURegs* reg){
     } else {
         iinstr -> shamt = 0;
         iinstr -> shtyp = 0;
-        iinstr -> imm = signextend12((instr >> 20) & 0xFFF);
+        iinstr -> imm = signextend((instr >> 20) & 0xFFF);
     }
     return iinstr;
 }

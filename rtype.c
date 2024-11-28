@@ -35,6 +35,7 @@ void rfnc3decode(rtype* rinstr, CPURegs* reg) {
             break;
         case 4:
             xor(rinstr,reg);
+            break;
         case 5:
             if(rinstr->fnc7 == 0){
                 srl(rinstr,reg);
@@ -88,11 +89,11 @@ void sub(rtype* rinstr, CPURegs* reg) {
     return;
 }
 void sra(rtype* rinstr, CPURegs* reg) {
-    reg -> x[rinstr->rd] = (reg -> x[rinstr->rs1] >> reg -> x[rinstr->rs2] & 0x1F);
+    reg -> x[rinstr->rd] = (int32_t)(reg -> x[rinstr->rs1] >> (reg -> x[rinstr->rs2] & 0x1F));
     return;
 }
 void srl(rtype* rinstr, CPURegs* reg) {
-    reg -> x[rinstr->rd] = ((uint32_t)reg -> x[rinstr->rs1] >> reg -> x[rinstr->rs2] & 0x1F);
+    reg -> x[rinstr->rd] = ((uint32_t)reg -> x[rinstr->rs1] >> (reg -> x[rinstr->rs2] & 0x1F));
     return;
 }
 void sltu(rtype* rinstr, CPURegs* reg) {

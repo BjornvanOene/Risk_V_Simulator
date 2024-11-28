@@ -21,13 +21,13 @@ stype* sdecode(unsigned int instr, CPURegs* reg) {
     if (sinstr->op == 3){
         sinstr->rd = (instr >> 7) & 0x1F;
         sinstr->rs1 = (instr >> 15) & 0x1F;
-        sinstr->imm = signextend12((instr >> 20) & 0xFFF);
+        sinstr->imm = signextend((instr >> 20) & 0xFFF);
     } else {
         sinstr -> rs1 = (instr & 0x01F00000) >> 20;
         sinstr -> rs2 = (instr & 0x000F8000) >> 15;
 
-        int fivefirst = (instr >> 7) & 0x1F;
         int lastseven = (instr & 0xFE000000);
+        int fivefirst = (instr >> 7) & 0x1F;
 
         int both = (fivefirst | (lastseven << 5));
 
@@ -38,20 +38,7 @@ stype* sdecode(unsigned int instr, CPURegs* reg) {
     }
     return sinstr;
 }
-void sfnc3decode(stype* sinstr, CPURegs* reg, uint8_t* sp) {
-    switch(sinstr -> op){
-        case 35:
-            storefncs(sinstr,reg,sp);
-            break;
-        case 3:
-            loadfncs(sinstr,reg,sp);
-            break;
-        default:
-            break;
-    }
-    free(sinstr);
-    return;
-}
+
 void storefncs(stype* sinstr, CPURegs* reg, uint8_t* sp){
     switch(sinstr->fnc3){
         case 0:
@@ -115,29 +102,21 @@ void loadfncs(stype* sinstr, CPURegs* reg, uint8_t* sp){
         case 2:
             lw(sinstr,reg,sp);
             break;
+        case 4:
+            lbu(sinstr,reg,sp);
+            break;
+        case 5:
+            lhu(sinstr,reg,sp);
+            break;
+        
         default:
             break;
         }
         return;
 
     }
-
-void lw(stype* sinstr, CPURegs* reg, uint8_t* sp) {
-    int addr = reg->x[sinstr->rs2];
-    int offset = sinstr->imm;
-
-    int firstbytes = sp[stack(addr,offset,sp)];
-    int uppermidbytes = sp[stack(addr,offset,sp)+1];
-    int lowermidbytes = sp[stack(addr,offset,sp)+2];
-    int finalbytes = sp[stack(addr,offset,sp)+3];
-
-    reg -> x[sinstr->rd] = (int32_t) (firstbytes << 24 | uppermidbytes << 16 | lowermidbytes << 8 | finalbytes <<0);
-    
-    return;
-}
-
 void lh(stype* sinstr, CPURegs* reg, uint8_t* sp) {
-    int addr = reg->x[sinstr->rs2];
+    int addr = reg->x[sinstr->rs1];
     int offset = sinstr->imm;
 
     int firstbytes = sp[stack(addr,offset,sp)];
@@ -149,7 +128,7 @@ void lh(stype* sinstr, CPURegs* reg, uint8_t* sp) {
 }
 
 void lhu(stype* sinstr, CPURegs* reg, uint8_t* sp) {
-    int addr = reg->x[sinstr->rs2];
+    int addr = reg->x[sinstr->rs1];
     int offset = sinstr->imm;
 
     int firstbytes = sp[stack(addr,offset,sp)];
@@ -160,9 +139,25 @@ void lhu(stype* sinstr, CPURegs* reg, uint8_t* sp) {
     return;
 }
 
+void lw(stype* sinstr, CPURegs* reg, uint8_t* sp) {
+    int addr = reg->x[sinstr->rs1];
+    int offset = sinstr->imm;
+
+    int firstbytes = sp[stack(addr,offset,sp)];
+    int uppermidbytes = sp[stack(addr,offset,sp)+1];
+    int lowermidbytes = sp[stack(addr,offset,sp)+2];
+    int finalbytes = sp[stack(addr,offset,sp)+3];
+
+    reg -> x[sinstr->rd] = (int32_t) (finalbytes << 24 | lowermidbytes << 16 | uppermidbytes << 8 | firstbytes <<0);
+    
+    return;
+}
+
+
+
 
 void lb(stype* sinstr, CPURegs* reg, uint8_t* sp) {
-    int addr = reg->x[sinstr->rs2];
+    int addr = reg->x[sinstr->rs1];
     int offset = sinstr->imm;
 
     int firstbytes = sp[stack(addr,offset,sp)];
@@ -172,12 +167,26 @@ void lb(stype* sinstr, CPURegs* reg, uint8_t* sp) {
     return;
 }
 void lbu(stype* sinstr, CPURegs* reg, uint8_t* sp) {
-    int addr = reg->x[sinstr->rs2];
+    int addr = reg->x[sinstr->rs1];
     int offset = sinstr->imm;
 
     int firstbytes = sp[stack(addr,offset,sp)];
 
     reg -> x[sinstr->rd] = firstbytes;
     
+    return;
+}
+void sfnc3decode(stype* sinstr, CPURegs* reg, uint8_t* sp) {
+    switch(sinstr -> op){
+        case 35:
+            storefncs(sinstr,reg,sp);
+            break;
+        case 3:
+            loadfncs(sinstr,reg,sp);
+            break;
+        default:
+            break;
+    }
+    free(sinstr);
     return;
 }
