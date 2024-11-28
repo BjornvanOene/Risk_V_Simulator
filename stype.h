@@ -17,6 +17,13 @@ stype* sdecode(unsigned int, CPURegs*);
 
 void sfnc3decode(stype*, CPURegs*, uint8_t*);
 void lw(stype*, CPURegs*, uint8_t*);
+void lb(stype*, CPURegs*, uint8_t*);
+void lh(stype*, CPURegs*, uint8_t*);
+void lhu(stype* , CPURegs* , uint8_t* );
+void lbu(stype* , CPURegs* , uint8_t* );
 void sw(stype*, CPURegs*, uint8_t*);
-
+void sb(stype* , CPURegs* , uint8_t* );
+void sh(stype* , CPURegs* , uint8_t* );
+void storefncs(stype* , CPURegs* , uint8_t* );
+void loadfncs(stype* , CPURegs* , uint8_t* );
 #endif
