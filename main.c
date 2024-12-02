@@ -11,12 +11,6 @@
 #include "stype.h"
 #include "utype.h"
 
-/*int main(int argc, char const *argv[])
-{
-   printf("hello %s ", argv[1]);
-    return 0;
-}*/
-
 uint8_t* initsp(){
     uint8_t* sp = (uint8_t*) malloc(sizeof(uint8_t)*0x00100000);
     if(sp==NULL) {
@@ -37,13 +31,6 @@ void printRegtoTerm(CPURegs* reg){
         printf("x%D:%0x\n", i, reg->x[i]);
     }
 }
-int lengthofinstr(uint32_t* len){
-    int i = 0;
-    while (len[i] != 0) {
-        i++;
-    }
-    return i;
-}
 
 void loadtomem(uint8_t* sp, uint32_t* instr) {
     uint32_t totalinstr = 128; //64 
@@ -61,19 +48,12 @@ int main(int argc, char *argv[]) {
     
     CPURegs* regs = init_regs();
     uint8_t* sp = initsp(); 
-    uint32_t* IntructionArray;
-    if(argv[1]){
-        IntructionArray = readToWord(argv[1]);
-    } else{
-        IntructionArray = readToWord("tests/task3/loop.bin");
-
-    }
-    //uint32_t* IntructionArray = readToWord(argv[1]);
+    uint32_t* IntructionArray = readToWord(argv[1]);
     loadtomem(sp, IntructionArray);
 
     uint32_t pcval = 0;
     uint32_t *pc = &pcval;
-    //uint32_t len = lengthofinstr(IntructionArray) << 2;
+ 
 
     while (1) {
         if (compCode(IntructionArray, regs, pc, sp)){

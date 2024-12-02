@@ -66,7 +66,7 @@ void jfnc3decode(jtype* jinstr, CPURegs* reg, uint32_t* pc) {
 void jalr(jtype* jinstr, CPURegs* reg, uint32_t* pc) {
     reg -> x[jinstr->rd] = *pc + 4;
     int32_t newadd = jinstr -> imm + reg -> x[jinstr->rs1];
-    newadd = newadd & 0xFFFFFFFE;
+    newadd &= 0xFFFFFFFE;
     *pc = newadd;
     return;
 }
