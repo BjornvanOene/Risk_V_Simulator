@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "readbin.h"
+#include "regs.h"
 
 uint32_t* readToWord(char a[]) {
     //const char *filename = "example.bin";
@@ -44,15 +45,28 @@ uint32_t* readToWord(char a[]) {
         return NULL;
     }
     
-    // Print the 32-bit words
-    /*printf("File read successfully. Total words: %zu\n", numWords);
-    for (size_t i = 0; i < numWords; i++) {
-        printf("Word %zu: 0x%08X\n", i, wordArray[i]);
-    }*/
-
-    // Clean up
     
     fclose(file);
 
     return wordArray;
+}
+
+void write_res_file(const char *filename, int32_t registers[32]) {
+    FILE *file = fopen(filename, "wb");
+    if (!file) {
+        perror("Error opening file for writing");
+        return;
+    }
+
+    for (int i = 0; i < 32; i++) {
+        uint32_t value = registers[i];
+        // Write the 32-bit register value in little-endian order
+        fputc(value & 0xFF, file);          // Least significant byte
+        fputc((value >> 8) & 0xFF, file);  // Next byte
+        fputc((value >> 16) & 0xFF, file); // Next byte
+        fputc((value >> 24) & 0xFF, file); // Most significant byte
+    }
+
+    fclose(file);
+    printf(".res file successfully created: %s\n", filename);
 }

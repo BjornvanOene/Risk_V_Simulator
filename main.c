@@ -63,6 +63,7 @@ int main(int argc, char *argv[]) {
         regs -> x[0] = 0;
     }
     printRegtoTerm(regs);
+    write_res_file("output.res", regs->x);
     free(sp);
     free(IntructionArray);
     return 0;
