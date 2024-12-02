@@ -36,28 +36,28 @@ int compCode(uint32_t *instr, CPURegs *regs, uint32_t *pc, uint8_t* sp) {
             break;
         }
         case 103:
-        case 111:{
+        case 111:{// send to jtype
             jtype* jinstr = decodej(instr[*pc/4],regs);
             jfnc3decode(jinstr,regs,pc);
             break;
         }
-        case 51:{
+        case 51:{// Send to rtype
             rtype* rinstr = rdecode(instr[*pc/4],regs);
             rfnc3decode(rinstr, regs);
             break;
         }
         case 35:
-        case 3:{
+        case 3:{// Send to stype
             stype* sinstr = sdecode(instr[*pc/4],regs);
             sfnc3decode(sinstr,regs,sp);
             break;
         }
-        case 55:{
+        case 55:{// Send to utype
             utype* uinstr = udecode(instr[*pc/4],regs);
             lui(uinstr,regs);
             break;
         }
-        case 115:{
+        case 115:{// Detect ecall
             if(ecall(instr[*pc/4],regs)){
                 return 1;
             }

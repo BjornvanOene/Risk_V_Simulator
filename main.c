@@ -33,7 +33,7 @@ void printRegtoTerm(CPURegs* reg){
 }
 
 void loadtomem(uint8_t* sp, uint32_t* instr) {
-    uint32_t totalinstr = 128; //64 
+    uint32_t totalinstr = 128; 
 
     for (int j = 0; j < totalinstr; j++) {
         sp[j * 4] = (instr[j] & 0x000000FF);
